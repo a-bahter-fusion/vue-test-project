@@ -3,15 +3,15 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-md-10 offset-md-1">
-          <img :src="profile.image" class="user-img" />
-          <h4>{{ profile.username }}</h4>
+          <img :src="profile.avatar" class="user-img" />
+          <h4>{{ profile.screenName }}</h4>
+          <span>{{ profile.followers }}</span>
           <div>
             <button
-              class="btn btn-sm btn-secondary action-btn"
-              @click.prevent="follow()"
+              class="btn"
+              @click.prevent="handlerFollow()"
             >
-              {{followButtonTitle}}
-              {{ profile.username }}
+              {{followButtonTitle}} {{ profile.username }}
             </button>
           </div>
         </div>
@@ -32,8 +32,7 @@ export default {
     };
   },
   mounted() {
-    // eslint-disable-next-line no-console
-    this.$store.dispatch(FETCH_PROFILE, { username: 'darcaia' });
+    this.$store.dispatch(FETCH_PROFILE, { username: 'test username' });
   },
   computed: {
     ...mapGetters(['profile']),
@@ -43,18 +42,13 @@ export default {
     },
   },
   methods: {
-    follow() {
-      switch (this.followButtonTitle) {
-        case 'Unfollow':
-          this.$store.dispatch(FETCH_PROFILE_UNFOLLOW, { username: 'darcaia' });
-          this.followButtonTitle = 'Follow';
-          break;
-        case 'Follow':
-          this.$store.dispatch(FETCH_PROFILE_FOLLOW, { username: 'darcaia' });
-          this.followButtonTitle = 'Unfollow';
-          break;
-        default:
-          break;
+    handlerFollow() {
+      if (this.profile.followedByMe) {
+        this.$store.dispatch(FETCH_PROFILE_UNFOLLOW, { username: 'test username' });
+        this.followButtonTitle = 'Follow';
+      } else {
+        this.$store.dispatch(FETCH_PROFILE_FOLLOW, { username: 'test username' });
+        this.followButtonTitle = 'Unfollow';
       }
     },
   },

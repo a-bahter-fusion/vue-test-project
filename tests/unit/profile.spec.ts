@@ -2,13 +2,9 @@ import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Profile from '@/components/Profile.vue';
 import { storeMock } from './mocks/mocks';
-import { FETCH_PROFILE, FETCH_PROFILE_FOLLOW } from '@/store/actions.type';
 
 describe('Profile.vue', () => {
-
   let store: any;
-  let actions: any;
-
   const localVue = createLocalVue();
   localVue.use(Vuex);
 
@@ -41,9 +37,10 @@ describe('Profile.vue', () => {
       {
         errors: {},
         profile: {
-          image: '',
-          username: '',
-          following: false,
+          avatar: '',
+          screenName: '',
+          followers: 0,
+          followedByMe: false,
         },
       },
     );
@@ -63,9 +60,10 @@ describe('Profile.vue', () => {
       {
         errors: {},
         profile: {
-          image: '',
-          username: '',
-          following: false,
+          avatar: '',
+          screenName: '',
+          followers: 0,
+          followedByMe: false,
         },
       },
     );

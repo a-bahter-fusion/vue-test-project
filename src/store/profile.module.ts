@@ -9,9 +9,10 @@ import { SET_PROFILE, SET_ERROR } from './mutations.type';
 const state = {
   errors: {},
   profile: {
-    image: '',
-    username: '',
-    following: false,
+    avatar: '',
+    screenName: '',
+    followers: 0,
+    followedByMe: false,
   },
 };
 
@@ -50,7 +51,7 @@ const actions = {
   [FETCH_PROFILE_UNFOLLOW](context: any, payload: any) {
     const { username } = payload;
 
-    return ApiService.delete(`profiles/${username}/follow`)
+    return ApiService.post(`profiles/${username}/unfollow`, username)
       .then(({ data }) => {
         context.commit(SET_PROFILE, data.profile);
         return data;
