@@ -3,15 +3,15 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-md-10 offset-md-1">
-          <img :src="profile.avatar" class="user-img" />
-          <h4>{{ profile.screenName }}</h4>
-          <span>{{ profile.followers }}</span>
+          <img :src="profile.avatar" class="user-img" alt="Avatar" />
+          <h4>Username: {{ profile.screenName }}</h4>
+          <span>Followers: {{ profile.followers }}</span>
           <div>
             <button
               class="btn"
               @click.prevent="handlerFollow()"
             >
-              {{followButtonTitle}} {{ profile.username }}
+              {{followButtonTitle}}
             </button>
           </div>
         </div>

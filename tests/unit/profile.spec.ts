@@ -1,10 +1,10 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
+import Vuex, { Store } from 'vuex';
 import Profile from '@/components/Profile.vue';
 import { storeMock } from './mocks/mocks';
 
 describe('Profile.vue', () => {
-  let store: any;
+  let store: Store<object>;
   const localVue = createLocalVue();
   localVue.use(Vuex);
 

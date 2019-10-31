@@ -1,26 +1,23 @@
-import Vue from 'vue';
 import axios from 'axios';
-import VueAxios from 'vue-axios';
 import { API_URL, TOKEN } from '@/common/config';
 
-const ApiService = {
-  init() {
-    Vue.use(VueAxios, axios);
-    Vue.axios.defaults.baseURL = API_URL;
-    Vue.axios.defaults.headers.common.Authorization = `Token ${TOKEN}`;
-  },
 
-  get(resource: any, slug = '') {
-    return axios.get(`${resource}/${slug}`).catch((error) => {
-      throw new Error(`[RWV] ApiService ${error}`);
+const axiosWrapper = async (data: any) => {
+  try {
+    const { data: res } = await axios({
+      headers: {
+        common: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      },
+      ...data,
+      url: `${API_URL}/${data.url}`,
     });
-  },
-
-  post(resource: any, params: any) {
-    return axios.post(`${resource}`, params).catch((error) => {
-      throw new Error(`[RWV] ApiService ${error}`);
-    });
-  },
+    return res;
+  } catch (error) {
+    console.error(`axios ${error}`);
+    throw new Error(`axios ${error}`);
+  }
 };
 
-export default ApiService;
+export default axiosWrapper;

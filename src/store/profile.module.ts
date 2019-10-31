@@ -1,4 +1,5 @@
-import ApiService from '@/common/api.service';
+import { ActionContext } from 'vuex';
+import axios from '@/common/api.service';
 import {
   FETCH_PROFILE,
   FETCH_PROFILE_FOLLOW,
@@ -24,41 +25,44 @@ const getters = {
 };
 
 const actions = {
-  [FETCH_PROFILE](context: any, payload: any) {
-    const { username } = payload;
-
-    return ApiService.get('profiles', username)
-      .then(({ data }) => {
-        context.commit(SET_PROFILE, data.profile);
-        return data;
-      })
-      .catch((err) => {
-        context.commit(SET_ERROR, err.message);
+  async [FETCH_PROFILE](context: ActionContext<object, object>, { userId, id } :
+    { userId?: number, id?: number} = {}) {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `user/${userId}/profile?viewerId=${id}`,
       });
+
+      context.commit(SET_PROFILE, response.profile);
+    } catch (error) {
+      context.commit(SET_ERROR, error.message);
+    }
   },
-  [FETCH_PROFILE_FOLLOW](context: any, payload: any) {
-    const { username } = payload;
-
-    return ApiService.post(`profiles/${username}/follow`, username)
-      .then(({ data }) => {
-        context.commit(SET_PROFILE, data.profile);
-        return data;
-      })
-      .catch((err) => {
-        context.commit(SET_ERROR, err.message);
+  async [FETCH_PROFILE_FOLLOW](context: ActionContext<object, object>, { userId, id } :
+    { userId?: number, id?: number } = {}) {
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: `user/${userId}/follow?by=${id}`,
       });
+
+      context.commit(SET_PROFILE, response.profile);
+    } catch (error) {
+      context.commit(SET_ERROR, error.message);
+    }
   },
-  [FETCH_PROFILE_UNFOLLOW](context: any, payload: any) {
-    const { username } = payload;
-
-    return ApiService.post(`profiles/${username}/unfollow`, username)
-      .then(({ data }) => {
-        context.commit(SET_PROFILE, data.profile);
-        return data;
-      })
-      .catch((err) => {
-        context.commit(SET_ERROR, err.message);
+  async [FETCH_PROFILE_UNFOLLOW](context: ActionContext<object, object>, { userId, id } :
+    { userId?: number, id?: number } = {}) {
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: `user/${userId}/unfollow?by=${id}`,
       });
+
+      context.commit(SET_PROFILE, response.profile);
+    } catch (error) {
+      context.commit(SET_ERROR, error.message);
+    }
   },
 };
 
